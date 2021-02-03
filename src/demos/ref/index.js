@@ -12,15 +12,6 @@
  */
 import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect } from 'react'
 
-const usePrevState = state => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = 123
-  })
-  
-  return ref.current
-}
-
 const Child = forwardRef((props, ref) => {
   console.log('props', props)
   const inputRef = useRef()
@@ -33,15 +24,9 @@ const Child = forwardRef((props, ref) => {
 })
 
 function Parent() {
-  const [modal, setModal] = useState({ visible: false, list: [] })
-  const prevModal = usePrevState(modal)
-  console.log('000', modal);
-  console.log('111', prevModal);
   return (
     <>
-      <button onClick={() => setModal({ visible: !modal.visible, list: modal.list.push(1) })}>showModal</button>
-      <p>{modal.visible}{modal.list}</p>
-      <p>{prevModal.visible}{prevModal.list}</p>
+      <input ></input>
     </>
   )
 }
