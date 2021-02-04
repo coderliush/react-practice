@@ -10,27 +10,32 @@ const MyContext = React.createContext()
 
 function Parent() {
   const [num, setNum] = useState(0)
+  const [sibNum, setSibNum] = useState({
+    num: 1,
+    visible: true
+  })
 
   const Sib = useMemo(() => {
     console.log('useMemo')
     return <p>Sib</p>
-  }, [num])
+  }, [sibNum])
 
   return (
-    <MyContext.Provider value={{ num, setNum }}>
+    <>
       <Child />
       {Sib}
-    </MyContext.Provider>
+    </>
   )
 }
 
 // 函数组件使用 useContext 获取全局状态
 function Child() {
-  const { num, setNum } = useContext(MyContext)
   return (
     <>
       <p>{num}</p>
+      <p>{sibNum.num}</p>
       <button onClick={() => { setNum(num + 1) }}>num ++</button>
+      <button onClick={() => { setSibNum({ visible: true }) }}>sibNum ++</button>
     </>
   )
 }

@@ -1,51 +1,43 @@
 /*
  * @Description: 
  * @Author: liushuhao
- * @Date: 2021-02-03 16:57:46
+ * @Date: 2021-02-04 16:59:52
  * @LastEditors: liushuhao
  */
-import React, { useContext, useState, useMemo } from 'react'
+import React,{useState,memo,useMemo,useCallback} from 'react';
 
-const MyContext = React.createContext()
-
-function Parent() {
-  const [num, setNum] = useState(0)
-  const [sibNum, setSibNum] = useState({
-    num: 1,
-    visible: true
-  })
-
-  return (
-    <MyContext.Provider value={{ num, setNum, sibNum, setSibNum }}>
-      <Child />
-      <Sib />
-    </MyContext.Provider>
-  )
+function SubCounter({onClick,data}){
+    console.log('SubCounter render');
+    return (
+        <button onClick={onClick}>{data.number}</button>
+    )
 }
+SubCounter = memo(SubCounter);
 
-// 函数组件使用 useContext 获取全局状态
-function Child() {
-  const { num, setNum, sibNum, setSibNum } = useContext(MyContext)
-  
-  return (
-    <>
-      <p>{num}</p>
-      <p>{sibNum.num}</p>
-      <button onClick={() => { setNum(num + 1) }}>num ++</button>
-      <button onClick={() => { setSibNum(sibNum.num + 1) }}>sibNum ++</button>
-    </>
-  )
+let oldData,oldAddClick;
+export  default  function Counter2(){
+    console.log('Counter render');
+    const [name,setName]= useState('计数器');
+    const [number,setNumber] = useState(0);
+    // 父组件更新时，这里的变量和函数每次都会重新创建，那么子组件接受到的属性每次都会认为是新的
+    // 所以子组件也会随之更新，这时候可以用到 useMemo
+    // 有没有后面的依赖项数组很重要，否则还是会重新渲染
+    // 如果后面的依赖项数组没有值的话，即使父组件的 number 值改变了，子组件也不会去更新
+    //const data = useMemo(()=>({number}),[]);
+    const data = useMemo(()=>({number}),[number]);
+    console.log('data===oldData ',data===oldData);
+    oldData = data;
+    
+    // 有没有后面的依赖项数组很重要，否则还是会重新渲染
+    const addClick = useCallback(()=>{
+        setNumber(number+1);
+    },[number]);
+    console.log('addClick===oldAddClick ',addClick===oldAddClick);
+    oldAddClick=addClick;
+    return (
+        <>
+            <input type="text" value={name} onChange={(e)=>setName(e.target.value)}/>
+            <SubCounter data={data} onClick={addClick}/>
+        </>
+    )
 }
-
-
-function Sib() {
-  console.log('sib1')
-  const { sibNum } = useContext(MyContext)
-  return useMemo(() => {
-    console.log('sib render')
-    return <>sib</>
-  }, [sibNum])
-}
-
-
-export default Parent
