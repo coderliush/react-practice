@@ -4,38 +4,29 @@
  * @Date: 2021-02-03 16:57:46
  * @LastEditors: liushuhao
  */
-import React, { useContext, useState, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 
-const MyContext = React.createContext()
-
-function Parent() {
-  const [num, setNum] = useState(0)
-  const [sibNum, setSibNum] = useState({
-    num: 1,
-    visible: true
-  })
-
-  const Sib = useMemo(() => {
-    console.log('useMemo')
-    return <p>Sib</p>
-  }, [sibNum])
-
-  return (
-    <>
-      <Child />
-      {Sib}
-    </>
-  )
+function Child() {
+  console.log('Child render')
+  return <>Child</>
 }
 
-// 函数组件使用 useContext 获取全局状态
-function Child() {
+
+function Parent() {
+  const [model, setModel] = useState({ list: [], visible: false })
+
+  const data = useMemo(() => model, [model.visible])
+
   return (
     <>
-      <p>{num}</p>
-      <p>{sibNum.num}</p>
-      <button onClick={() => { setNum(num + 1) }}>num ++</button>
-      <button onClick={() => { setSibNum({ visible: true }) }}>sibNum ++</button>
+      <Child data={data} setModel={setModel}  />
+      <button onClick={() => { 
+        model.list.push(1)
+        setModel({...model, list: model.list}) 
+      }}>+</button>
+      <button onClick={() => {
+        setModel({ ...model, visible: !model.visible })
+      }}>change visible</button>
     </>
   )
 }
