@@ -8,13 +8,12 @@ import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import routes from './routes'
-import HooksRedux from './demos/Hooks-Redux'
 import './App.css'
 
 function App() {
     return (
       <div className="App">
-        <div className="contents"><HooksRedux /></div>
+        <div className="contents">{routes}</div>
       </div>
     )
 }

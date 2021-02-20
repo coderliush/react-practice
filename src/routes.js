@@ -1,3 +1,9 @@
+/*
+ * @Description: 
+ * @Author: liushuhao
+ * @Date: 2021-02-05 17:42:50
+ * @LastEditors: liushuhao
+ */
 import React from 'react'
 import { Route } from 'react-router-dom'
 
@@ -10,6 +16,8 @@ import ForwardRefDemo from './demos/forward-ref'
 import ChildrenDemo from './demos/children'
 import MemoDemo from './demos/memo'
 import PortalDemo from './demos/portal'
+import UseEffectDemo from './demos/useEffect'
+import HooksRedux from './demos/Hooks-Redux'
 
 export default (
   <>
@@ -22,5 +30,7 @@ export default (
     <Route path="/children" component={ChildrenDemo} />
     <Route path="/memo" render={() => <MemoDemo />} />
     <Route path="/portal" render={() => <PortalDemo />} />
+    <Route path="/useEffect" render={() => <UseEffectDemo />} />
+    <Route path="/Hooks-Redux" render={() => <HooksRedux />} />
   </>
 )

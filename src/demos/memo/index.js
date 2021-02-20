@@ -4,24 +4,23 @@
  * @Date: 2021-02-03 16:57:46
  * @LastEditors: liushuhao
  */
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 
-function Child() {
-  console.log('child render');
-  return <>Child</>
+class Child extends React.Component {
+    render() {
+        return <>Child</>
+    }
 }
 
-Child = React.memo(Child)
+const Memoed = React.memo(Child)
 
 function Parent() {
   const [num, setNum] = useState(0)
-  const fn = () => {}
-  const memoizedCallback = useCallback(fn, [])
   return (
-      <>
-          <Child fn={memoizedCallback} />
-          <button onClick={() => { setNum(num + 1) }}>increase</button>
-      </>
+    <>
+      <Memoed />
+      <button onClick={() => { setNum(num + 1) }}>num ++</button>
+    </>
   )
 }
 

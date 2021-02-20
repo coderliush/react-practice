@@ -8,13 +8,15 @@ import React, { useState, useCallback } from 'react'
 
 function Child(props) {
   console.log('Child render', props)
-  return <>Child</>
+  
 }
-function isEqual(prevProps, nextProps) {
-  console.log('prev', prevProps)
-  console.log('nextProps', nextProps)
-  return false
+
+class Child extends React.Component {
+    render() {
+        return <>Child</>
+    }
 }
+
 const Memoed = React.memo(Child, isEqual)
 
 function Parent() {
